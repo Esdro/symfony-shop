@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Address
+{% endblock %}
+
+{% block body %}
+	{{ include("partials/section-title.html.twig",{'nom':' Modifier address  '}) }}
+	<div class="container">
+		<div class='row'>
+			<div class="col-md-10 m-auto">
+				<h1 class="text-center" >Edit Address</h1>
+
+				{{ include('address/_form.html.twig', {'button_label': 'Update'}) }}
+
+				<a href="{{ path('app_address_index') }}" class="bg-dark p-2 btn btn-block text-white">back to list</a>
+
+				{{ include('address/_delete_form.html.twig') }}
+			</div>
+		</div>
+	</div>
+{% endblock %}

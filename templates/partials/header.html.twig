@@ -1,0 +1,25 @@
+ <div class="header flex aic  ">
+        <div class="content-header bold xl flex jcb">
+            <div class="shop-brand">
+                <a href="{{path('app_home')}}"> Kitoni store</a>
+            </div>
+            <div class="header-center">
+                <ul>
+                    <li> <a href="#">Accueil</a></li>
+                    <li> <a href="#">A propos</a></li>
+                    <li> <a href="#">Nos services</a></li>
+                    <li> <a href="#">Notre blog</a></li>
+                    <li> <a href="#">La boutique</a></li>
+                </ul>
+            </div>
+            <div class="header-end flex g-10">
+            {% if app.user %}
+                <a href="#"> {{app.user.firstname}} </a>
+                <a href="{{path('app_logout')}}">Se déconnecter</a>
+            {% else %}
+                 <a href="{{path('app_register')}}">S'inscrire</a>
+                <a href="{{path('app_login')}}">Se connecter</a>
+            {% endif %}
+            </div>
+        </div>
+    </div>

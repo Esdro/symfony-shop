@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -56,6 +58,28 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="boolean")
      */
     private $isVerified = false;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Address::class, mappedBy="user")
+     */
+    private $addresses;
+
+    /**
+     * @ORM\OneToMany(targetEntity=ProductReviews::class, mappedBy="user")
+     */
+    private $productReviews;
+
+    public function __construct()
+    {
+        $this->addresses = new ArrayCollection();
+        $this->productReviews = new ArrayCollection();
+    }
+
+    public function __toString(){
+
+        return $this->firstname . '  ' . $this->lastname;
+    }
+
 
     public function getId(): ?int
     {
@@ -185,6 +209,66 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsVerified(bool $isVerified): self
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Address>
+     */
+    public function getAddresses(): Collection
+    {
+        return $this->addresses;
+    }
+
+    public function addAddress(Address $address): self
+    {
+        if (!$this->addresses->contains($address)) {
+            $this->addresses[] = $address;
+            $address->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAddress(Address $address): self
+    {
+        if ($this->addresses->removeElement($address)) {
+            // set the owning side to null (unless already changed)
+            if ($address->getUser() === $this) {
+                $address->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ProductReviews>
+     */
+    public function getProductReviews(): Collection
+    {
+        return $this->productReviews;
+    }
+
+    public function addProductReview(ProductReviews $productReview): self
+    {
+        if (!$this->productReviews->contains($productReview)) {
+            $this->productReviews[] = $productReview;
+            $productReview->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProductReview(ProductReviews $productReview): self
+    {
+        if ($this->productReviews->removeElement($productReview)) {
+            // set the owning side to null (unless already changed)
+            if ($productReview->getUser() === $this) {
+                $productReview->setUser(null);
+            }
+        }
 
         return $this;
     }

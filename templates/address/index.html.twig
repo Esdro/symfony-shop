@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Address index
+{% endblock %}
+
+{% block body %}
+	{{ include("partials/section-title.html.twig",{'nom':' Liste des Adresses  '}) }}
+	<div class="container">
+		<div class='row'>
+			<h1>Address index</h1>
+
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Id</th>
+						<th>Fullname</th>
+						<th>Company</th>
+						<th>Adress</th>
+						<th>Complement</th>
+						<th>City</th>
+						<th>Phone</th>
+						<th>CodePostal</th>
+						<th>Country</th>
+						<th>actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for address in addresses %}
+						<tr>
+							<td>{{ address.id }}</td>
+							<td>{{ address.fullname }}</td>
+							<td>{{ address.company }}</td>
+							<td>{{ address.adress }}</td>
+							<td>{{ address.complement }}</td>
+							<td>{{ address.city }}</td>
+							<td>{{ address.phone }}</td>
+							<td>{{ address.codePostal }}</td>
+							<td>{{ address.country }}</td>
+							<td>
+								<a href="{{ path('app_address_show', {'id': address.id}) }}" class="bg-dark  ">show</a>
+								<a href="{{ path('app_address_edit', {'id': address.id}) }}" class="bg-dark  ">edit</a>
+							</td>
+						</tr>
+					{% else %}
+						<tr>
+							<td colspan="10">no records found</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+
+			<a href="{{ path('app_address_new') }}" class="bg-dark p-2">Create new</a>
+		</div>
+	</div>
+{% endblock %}
